@@ -1,0 +1,86 @@
+1. Why does using this code in the main loop not work to move the rectangle?
+rect_x = 50
+pygame.draw.rect(screen, WHITE, [rect_x, 50, 50, 50])
+rect_x += 1
+
+The rect_x variable initialization is called every loop and resets the rect's position.
+
+
+2. If the screen is 400 pixels tall, and the shape is 20 pixels high, at what point should the code check to see if the shape is in contact with the bottom of the screen.
+
+at y = 400-20 = 380px
+
+
+
+3. When drawing a starry background, explain why it doesn’t work to put code like this in the main program loop:
+for i in range(50):
+x = random.randrange(0, 400)
+y = random.randrange(0, 400)
+pygame.draw.circle(screen, WHITE, [x, y], 2)
+
+It only draws 1 star that changes its x,y position 49 times before being drawn at its 50th position.
+
+
+
+4. If you have a list of coordinates like the following, what code would be required to print out the array location that holds the number 33?
+stars = [[ 3, 4],
+[33, 94],
+[ 0, 0]]
+
+stars[1][0]
+
+
+
+5. This code example causes snow to fall:
+# Process each snow flake in the list
+for i in range(len(snow_list)):
+# Get the x and y from the list
+x = snow_list[i][0]
+y = snow_list[i][1]
+# Draw the snow flake
+pygame.draw.circle(screen, WHITE, [x, y], 2)
+# Move the snow flake down one pixel
+snow_list[i][1] += 1
+
+So does the example below. Explain why this example works as well.
+# Process each snow flake in the list
+for i in range(len(snow_list)):
+# Draw the snow flake
+pygame.draw.circle(screen, WHITE, snow_list[i], 2)
+# Move the snow flake down one pixel
+snow_list[i][1] += 1
+
+snow_list is a list of two dimensional variables, so instead of getting the x and y values for each element "i" in the list and assigning them to local vars "x" and "y", we directly get the x,y value pairs for element i by calling snow_list[i].
+
+
+
+6. What’s wrong with this code that uses a function to draw a stick figure? Assume the colors are already defined and the rest of the program is ok. What is wrong with the code in the function?
+
+def draw_stick_figure(screen, x, y):
+# Head
+pygame.draw.ellipse(screen, BLACK, [96,83,10,10], 0)
+# Legs
+pygame.draw.line(screen, BLACK, [100,100], [105,110], 2)
+pygame.draw.line(screen, BLACK, [100,100], [95,110], 2)
+# Body
+pygame.draw.line(screen, RED, [100,100], [100,90], 2)
+# Arms
+pygame.draw.line(screen, RED, [100,90], [104,100], 2)
+pygame.draw.line(screen, RED, [100,90], [96,100], 2)
+
+It does not utilize the x,y function parameters to offset the position of the stick figure, it is safe to say the stick figure will be always drawn at the same position.
+
+
+
+7. Show how to grab the mouse coordinates, and then grab just the x coordinate of where the mouse is.
+
+mousePosX = pygame.mouse.get_pos()[0]
+or
+mousePos = pygame.mouse.get_pos()
+x = mousePos[0]
+
+
+
+8. When we created a bouncing rectangle, we multiplied the speed times -1 when the rectangle hit the edge of the screen. Explain why that technique won’t work for moving an object with the keyboard.
+
+Keyboard controlled movement consists of two buttons for every dimension on the 2D plane, one for a positive change in position and another for the negative counterpart (right and left, up and down arrows). Thus if we invert one key's value to steer in the opposite direction when an edge is hit, both keyboard keys will now move the object in the same direction and will only serve to confuse the user.
